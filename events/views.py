@@ -3,7 +3,7 @@ import calendar
 from calendar import HTMLCalendar
 from datetime import datetime
 
-def home(request, year, month):
+def home(request, year=datetime.now().year, month=datetime.now().strftime('%B')):
     #deixa a primeira letra maiuscula
     month = month.capitalize()
 
@@ -31,4 +31,4 @@ def home(request, year, month):
         "time": time
     }
 
-    return render(request, 'home.html', context)
+    return render(request, 'events/home.html', context)
