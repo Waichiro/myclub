@@ -1,8 +1,10 @@
 from django.shortcuts import render
 import calendar
 from calendar import HTMLCalendar
+from django.http import HttpResponseRedirect
 from datetime import datetime
 from .models import Event
+from .forms import VenueForm
 
 def home(request, year=datetime.now().year, month=datetime.now().strftime('%B')):
     #deixa a primeira letra maiuscula
@@ -43,3 +45,22 @@ def all_events(request):
     }
 
     return render(request, 'events/events.html', context)
+
+def add_venue(request):
+    submitted =  False
+
+    if request.method == "POST":
+        form = VenueForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/add_venue?submitted=True')
+
+    else:
+        form = VenueForm
+        if 'submitted' in request.GET:
+            submitted = True
+    context = {
+        "form": form,
+        "submitted": submitted
+    }
+    return render(request, 'events/add_venue.html', context)
