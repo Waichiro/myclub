@@ -84,3 +84,18 @@ def show_venue(request, venue_id):
         "venue": venue
     }
     return render(request, 'events/show_venue.html', context)
+
+def search_venues(request):
+
+    if request.method =="POST":
+        searched = request.POST['searched']
+        venues = Venue.objects.filter(name__contains=searched)
+        context = {
+            'searched': searched,
+            'venues': venues
+        }
+        return render(request, 'events/search_venues.html', context)
+    else:
+        return render(request, 'events/search_venues.html', {})
+    
+        
