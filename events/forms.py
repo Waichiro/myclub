@@ -3,7 +3,7 @@ from django import forms
 from django.forms import ModelForm
 from .models import Venue
 
-#Creacao do fomulario do Venue
+#Criacao do fomulario do Venue
 
 class VenueForm(ModelForm):
     class Meta:

@@ -1,11 +1,13 @@
+from multiprocessing import context
 from django.shortcuts import render
 import calendar
 from calendar import HTMLCalendar
 from django.http import HttpResponseRedirect
 from datetime import datetime
-from .models import Event
+from .models import Event, Venue
 from .forms import VenueForm
 
+#Aqui é o home do projeto onde fica o calendario
 def home(request, year=datetime.now().year, month=datetime.now().strftime('%B')):
     #deixa a primeira letra maiuscula
     month = month.capitalize()
@@ -36,6 +38,7 @@ def home(request, year=datetime.now().year, month=datetime.now().strftime('%B'))
 
     return render(request, 'events/home.html', context)
 
+#Pega todos os eventos q estao no Banco de dados e lista eles
 def all_events(request):
 
     event_list = Event.objects.all()
@@ -46,6 +49,7 @@ def all_events(request):
 
     return render(request, 'events/events.html', context)
 
+#adiciona uma nova venue no banco de dados
 def add_venue(request):
     submitted =  False
 
@@ -64,3 +68,19 @@ def add_venue(request):
         "submitted": submitted
     }
     return render(request, 'events/add_venue.html', context)
+
+#lista todas as venues no banco de dados
+def list_venues(request):
+    venue_list = Venue.objects.all()#Puxa todos os dados q estao no banco de dados conforme a tabela
+    context = {
+        "venue_list": venue_list
+    }
+    return render(request, 'events/venue.html', context)
+
+#Nessa parte pega o id do banco de dados e assim so tras as informacoes contidas no id q foi pego
+def show_venue(request, venue_id):
+    venue = Venue.objects.get(pk=venue_id) #Ele pega somente a chave primaria q é o id do objeto na tabela
+    context = {
+        "venue": venue
+    }
+    return render(request, 'events/show_venue.html', context)
