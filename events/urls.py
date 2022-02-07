@@ -11,6 +11,10 @@ urlpatterns = [
     path('show_venue/<venue_id>/', views.show_venue, name="show-venue"),#Esse link vai para o venue conforme seu id
     path('search_venues/', views.search_venues, name="search-venues"),#Essa é a parte de pesquisa do projeto
     path('update_venue/<venue_id>/', views.update_venue, name="update-venue"),#Esse link é para o update da Venue conforme seu link
+    path('update_event/<event_id>/', views.update_event, name="update-event"),#Esse link é para o update de um evento conforme seu link
     path('add_event/', views.add_event, name="add-event"),#Essa pagina é para criar um novo evento
+    path('delete_event/<event_id>/', views.delete_event, name="delete-event"),#Esse link deleta um evento
+    path('delete_venue/<venue_id>/', views.delete_venue, name="delete-venue"),#Esse link deleta um Venue
+
 
 ]

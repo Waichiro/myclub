@@ -128,4 +128,28 @@ def add_event(request):
         "form": form,
         "submitted": submitted
     }
-    return render(request, 'events/add_event.html', context)   
+    return render(request, 'events/add_event.html', context)  
+
+def update_event(request, event_id):
+    event = Event.objects.get(pk=event_id) #Ele pega somente a chave primaria q é o id do objeto na tabela
+    form = EventForm(request.POST or None, instance=event)
+    if form.is_valid():
+        form.save()
+        return redirect('list-events')
+    context = {
+        "event": event,
+        "form": form
+    }
+    return render(request, 'events/update_event.html', context)  
+
+#deleta um evento
+def delete_event(request, event_id):
+    event = Event.objects.get(pk=event_id) #Ele pega somente a chave primaria q é o id do objeto na tabela  
+    event.delete()
+    return redirect('list-events')#Redireciona para a lista de eventos
+
+#deleta um Venue
+def delete_venue(request, venue_id):
+    venue = Venue.objects.get(pk=venue_id) #Ele pega somente a chave primaria q é o id do objeto na tabela  
+    venue.delete()
+    return redirect('list-venues')#Redireciona para a lista de venues
