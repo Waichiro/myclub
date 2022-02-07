@@ -5,7 +5,7 @@ from calendar import HTMLCalendar
 from django.http import HttpResponseRedirect
 from datetime import datetime
 from .models import Event, Venue
-from .forms import VenueForm
+from .forms import VenueForm, EventForm
 
 #Aqui é o home do projeto onde fica o calendario
 def home(request, year=datetime.now().year, month=datetime.now().strftime('%B')):
@@ -97,7 +97,7 @@ def search_venues(request):
         return render(request, 'events/search_venues.html', context)
     else:
         return render(request, 'events/search_venues.html', {})
-    
+#Aqui é a view para dar update na venue   
 def update_venue(request, venue_id):
     venue = Venue.objects.get(pk=venue_id) #Ele pega somente a chave primaria q é o id do objeto na tabela
     form = VenueForm(request.POST or None, instance=venue)
@@ -108,4 +108,24 @@ def update_venue(request, venue_id):
         "venue": venue,
         "form": form
     }
-    return render(request, 'events/update_venue.html', context)      
+    return render(request, 'events/update_venue.html', context)   
+
+#Aqui fica a view para adicionar um novo evento
+def add_event(request):
+    submitted =  False
+
+    if request.method == "POST":
+        form = EventForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/add_event?submitted=True')
+
+    else:
+        form = EventForm
+        if 'submitted' in request.GET:
+            submitted = True
+    context = {
+        "form": form,
+        "submitted": submitted
+    }
+    return render(request, 'events/add_event.html', context)   
