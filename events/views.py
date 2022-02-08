@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from datetime import datetime
 from .models import Event, Venue
 from .forms import VenueForm, EventForm
+from django.http import HttpResponse
 
 #Aqui é o home do projeto onde fica o calendario
 def home(request, year=datetime.now().year, month=datetime.now().strftime('%B')):
@@ -153,3 +154,21 @@ def delete_venue(request, venue_id):
     venue = Venue.objects.get(pk=venue_id) #Ele pega somente a chave primaria q é o id do objeto na tabela  
     venue.delete()
     return redirect('list-venues')#Redireciona para a lista de venues
+
+#Aqui gera um arquivo de texto em .txt
+def venue_text(request):
+    response = HttpResponse(content_type='text/plain')
+    response['Content-Disposition'] = 'attachment; filename=venues.txt'
+    #Designa o modelo do banco de dados
+    venues = Venue.objects.all()
+
+    #Create blank list
+    lines = []
+    #loop pThu and output
+    for venue in venues:
+        lines.append(f'{venue.name}\n{venue.address}\n{venue.phone}\n{venue.email_address}\n\n')
+
+
+    #write textFile
+    response.writelines(lines)
+    return response 

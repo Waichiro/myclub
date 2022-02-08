@@ -15,6 +15,7 @@ urlpatterns = [
     path('add_event/', views.add_event, name="add-event"),#Essa pagina é para criar um novo evento
     path('delete_event/<event_id>/', views.delete_event, name="delete-event"),#Esse link deleta um evento
     path('delete_venue/<venue_id>/', views.delete_venue, name="delete-venue"),#Esse link deleta um Venue
-
+    path('venue_text', views.venue_text, name="venue-text"),#Nesse link sera gerado um arquivo de texto
+    
 
 ]
