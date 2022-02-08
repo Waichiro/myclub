@@ -9,6 +9,13 @@ from .forms import VenueForm, EventForm
 from django.http import HttpResponse
 import csv
 
+#Nessa parte vai ficar todos os imports que precisa para gerar arquivos em PDF
+from django.http import FileResponse
+import io
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
+from reportlab.lib.pagesizes import letter
+
 #Aqui é o home do projeto onde fica o calendario
 def home(request, year=datetime.now().year, month=datetime.now().strftime('%B')):
     #deixa a primeira letra maiuscula
@@ -193,3 +200,45 @@ def venue_csv(request):
 
 
     return response 
+
+#gera um arquivo em pdf dos venues
+def venue_pdf(request):
+
+    #Create bytestream buffer
+    buf = io.BytesIO()
+
+    #Create a canvas
+    c = canvas.Canvas(buf, pagesize=letter, bottomup=0)
+
+    #create a text objects
+    textob = c.beginText()
+    textob.setTextOrigin(inch, inch) 
+    textob.setFont("Helvetica", 14)
+
+    #Designa o modelo do banco de dados
+    venues = Venue.objects.all()
+
+    #Create a blank list
+    lines = []
+
+    for venue in venues:
+        lines.append(venue.name)
+        lines.append(venue.address)
+        lines.append(venue.zip_code)
+        lines.append(venue.phone)
+        lines.append(venue.email_address)
+        lines.append("  ")
+        
+
+    # Loop
+    for line in lines:
+        textob.textLine(line)
+
+    #Finis Up
+    c.drawText(textob)
+    c.showPage()
+    c.save()
+    buf.seek(0)
+
+    #return something
+    return FileResponse(buf, as_attachment=True, filename='venue.pdf')

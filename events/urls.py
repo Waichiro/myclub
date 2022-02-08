@@ -17,6 +17,7 @@ urlpatterns = [
     path('delete_venue/<venue_id>/', views.delete_venue, name="delete-venue"),#Esse link deleta um Venue
     path('venue_text', views.venue_text, name="venue-text"),#Nesse link sera gerado um arquivo de texto
     path('venue_csv', views.venue_csv, name="venue-csv"),#Nesse link sera gerado um arquivo em csv
+    path('venue_pdf', views.venue_pdf, name="venue-pdf"),#Nesse link sera gerado um arquivo em pdf
 
 
 ]
