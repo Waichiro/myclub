@@ -10,11 +10,15 @@ from django.http import HttpResponse
 import csv
 
 #Nessa parte vai ficar todos os imports que precisa para gerar arquivos em PDF
+#Ele ta dando esse alert mas ta tudo funcionando
 from django.http import FileResponse
 import io
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
+
+#Aqui fica os imports para Pagination Stuff
+from django.core.paginator import Paginator
 
 #Aqui é o home do projeto onde fica o calendario
 def home(request, year=datetime.now().year, month=datetime.now().strftime('%B')):
@@ -80,9 +84,17 @@ def add_venue(request):
 
 #lista todas as venues no banco de dados
 def list_venues(request):
-    venue_list = Venue.objects.all().order_by('name')#Puxa todos os dados q estao no banco de dados conforme a tabela
+    #venue_list = Venue.objects.all().order_by('name')#Puxa todos os dados q estao no banco de dados conforme a tabela
+    venue_list = Venue.objects.all()
+
+    #Set up pagination
+    p = Paginator(Venue.objects.all(), 3)
+    page = request.GET.get('page')
+    venues = p.get_page(page)
+
     context = {
-        "venue_list": venue_list
+        "venue_list": venue_list,
+        "venues": venues
     }
     return render(request, 'events/venue.html', context)
 
