@@ -7,6 +7,7 @@ from datetime import datetime
 from .models import Event, Venue
 from .forms import VenueForm, EventForm
 from django.http import HttpResponse
+import csv
 
 #Aqui é o home do projeto onde fica o calendario
 def home(request, year=datetime.now().year, month=datetime.now().strftime('%B')):
@@ -171,4 +172,24 @@ def venue_text(request):
 
     #write textFile
     response.writelines(lines)
+    return response 
+
+#Aqui gera um arquivo de texto em .csv
+def venue_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=venues.csv'
+    #Designa o modelo do banco de dados
+    venues = Venue.objects.all()
+
+    #Create a csv writer
+    writer = csv.writer(response)
+  
+    #Adiciona cabeçalhos de coluna ao arquiso csv
+    writer.writerow(['Venue Name', 'Address', 'Phone', 'Email'])
+
+    #loop pThu and output
+    for venue in venues:
+        writer.writerow([venue.name, venue.address, venue.phone, venue.email_address])
+
+
     return response 

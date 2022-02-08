@@ -16,6 +16,7 @@ urlpatterns = [
     path('delete_event/<event_id>/', views.delete_event, name="delete-event"),#Esse link deleta um evento
     path('delete_venue/<venue_id>/', views.delete_venue, name="delete-venue"),#Esse link deleta um Venue
     path('venue_text', views.venue_text, name="venue-text"),#Nesse link sera gerado um arquivo de texto
-    
+    path('venue_csv', views.venue_csv, name="venue-csv"),#Nesse link sera gerado um arquivo em csv
+
 
 ]
