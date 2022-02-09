@@ -7,26 +7,32 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           
+          #Manda para um mes do calendario
           <li class="nav-item">
             <a class="nav-link" href="{% url 'home' '2022' 'February' %}">Link</a>
           </li>
 
+          #Lista os eventos
           <li class="nav-item">
             <a class="nav-link" href="{% url 'list-events'  %}">Events</a>
           </li>
 
+          #Adiciona locais
           <li class="nav-item">
             <a class="nav-link" href="{% url 'add-venue'  %}">Add Venue</a>
           </li>
-
+          
+          #Lista os locais que estao cadastrados
           <li class="nav-item">
             <a class="nav-link" href="{% url 'list-venues'  %}">Venues</a>
           </li>
 
+          #Adiciona um evento
           <li class="nav-item">
             <a class="nav-link" href="{% url 'add-event'  %}">Add Event</a>
           </li>
 
+          # Esses tres botoes gera arquivo em .txt, .csv e .pdf
           <li class="nav-item">
             <a class="nav-link" href="{% url 'venue-text'  %}">Venue textFile</a>
           </li>
@@ -35,12 +41,21 @@
             <a class="nav-link" href="{% url 'venue-csv'  %}">Venue csv</a>
           </li>
 
+
           <li class="nav-item">
             <a class="nav-link" href="{% url 'venue-pdf'  %}">Venue pdf</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'login'  %}">Login</a>
-          </li>
+
+          #Botao de login e logout ele verifica se o usuario esta conectado ou nn
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout'  %}">Logout</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login'  %}">Login</a>
+            </li>
+          {% endif %}
           
           
         </ul>
