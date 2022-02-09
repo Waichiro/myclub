@@ -7,51 +7,60 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           
-          #Manda para um mes do calendario
+          <!--Manda para um mes do calendario-->
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'home' '2022' 'February' %}">Link</a>
+            <a class="nav-link" href="{% url 'home' '2022' 'February' %}">Calendar</a>
           </li>
 
-          #Lista os eventos
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'list-events'  %}">Events</a>
-          </li>
-
-          #Adiciona locais
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'add-venue'  %}">Add Venue</a>
+          <!--Eventos-->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Events
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="{% url 'list-events'  %}">Eventos</a></li>
+              <li><a class="dropdown-item" href="{% url 'add-event'  %}">Add Events</a></li>
+             </ul>
           </li>
           
-          #Lista os locais que estao cadastrados
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'list-venues'  %}">Venues</a>
+          <!--Venues-->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Venues
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="{% url 'list-venues'  %}">Venues</a></li>
+              <li><a class="dropdown-item" href="{% url 'add-venue'  %}">Add Venue</a></li>
+             </ul>
           </li>
 
-          #Adiciona um evento
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'add-event'  %}">Add Event</a>
+          <!--Arquivos venue-->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Donwload
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="{% url 'venue-text'  %}">Venue textFile</a></li>
+              <li><a class="dropdown-item" href="{% url 'venue-csv'  %}">Venue Csv</a></li>
+              <li><a class="dropdown-item" href="{% url 'venue-pdf'  %}">Venue Pdf</a></li>
+             </ul>
           </li>
-
-          # Esses tres botoes gera arquivo em .txt, .csv e .pdf
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'venue-text'  %}">Venue textFile</a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'venue-csv'  %}">Venue csv</a>
-          </li>
+    
+          
+          
 
 
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'venue-pdf'  %}">Venue pdf</a>
-          </li>
-
-          #Botao de login e logout ele verifica se o usuario esta conectado ou nn
+          <!--Botao de login e logout ele verifica se o usuario esta conectado ou nn-->
           {% if user.is_authenticated %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'logout'  %}">Logout</a>
             </li>
           {% else %}
+            <!--Registro de usuario-->
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'register-user'  %}">Register</a>
+            </li>
+            <!--Login do usuario-->
             <li class="nav-item">
               <a class="nav-link" href="{% url 'login'  %}">Login</a>
             </li>
