@@ -10,7 +10,6 @@ from django.http import HttpResponse
 import csv
 
 #Nessa parte vai ficar todos os imports que precisa para gerar arquivos em PDF
-#Ele ta dando esse alert mas ta tudo funcionando
 from django.http import FileResponse
 import io
 from reportlab.pdfgen import canvas
@@ -88,13 +87,16 @@ def list_venues(request):
     venue_list = Venue.objects.all()
 
     #Set up pagination
-    p = Paginator(Venue.objects.all(), 3)
+    p = Paginator(Venue.objects.all(), 2)
     page = request.GET.get('page')
     venues = p.get_page(page)
 
+    nums = "a" * venues.paginator.num_pages
+
     context = {
         "venue_list": venue_list,
-        "venues": venues
+        "venues": venues,
+        "nums": nums
     }
     return render(request, 'events/venue.html', context)
 
