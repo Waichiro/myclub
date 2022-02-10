@@ -7,6 +7,8 @@ from calendar import HTMLCalendar
 from django.http import HttpResponseRedirect
 from datetime import datetime
 from .models import Event, Venue
+#import user model from django
+from django.contrib.auth.models import User
 from .forms import VenueForm, EventForm, EventFormAdmin
 from django.http import HttpResponse
 import csv
@@ -108,8 +110,10 @@ def list_venues(request):
 #Nessa parte pega o id do banco de dados e assim so tras as informacoes contidas no id q foi pego
 def show_venue(request, venue_id):
     venue = Venue.objects.get(pk=venue_id) #Ele pega somente a chave primaria q é o id do objeto na tabela
+    venue_owner = User.objects.get(pk=venue.owner)
     context = {
-        "venue": venue
+        "venue": venue,
+        "venue_owner": venue_owner
     }
     return render(request, 'events/show_venue.html', context)
 
