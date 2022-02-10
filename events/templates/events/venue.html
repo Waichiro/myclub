@@ -7,8 +7,9 @@
         {% for venue in venues %}
         <tr>
             <td><a href="{% url 'show-venue' venue.id %}">{{ venue }}</a> <br></td>
-            <td align="right"><a href="{% url 'update-venue' venue.id %}" class="btn btn-outline-secondary btn-sm">Update Venue</a>  <a href="{% url 'delete-venue' venue.id %}" class="btn btn-outline-danger btn-sm">Delete Venue</a> </td>
-            
+            {% if user.is_authenticated %}
+                <td align="right"><a href="{% url 'update-venue' venue.id %}" class="btn btn-outline-secondary btn-sm">Update Venue</a>  <a href="{% url 'delete-venue' venue.id %}" class="btn btn-outline-danger btn-sm">Delete Venue</a> </td>
+            {% endif %}
         </tr>
             
         {% endfor %}
