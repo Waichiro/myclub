@@ -10,6 +10,7 @@ class Venue(models.Model):
     phone = models.CharField('contactphone', max_length=25)
     web = models.URLField('Website Adress' )
     email_address = models.EmailField('Email address', blank=True)
+    owner = models.IntegerField("Venue Owner", blank=False, default=1)
 
     def __str__(self):
         return self.name
