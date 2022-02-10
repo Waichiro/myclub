@@ -296,3 +296,12 @@ def venue_pdf(request):
 
     #return something
     return FileResponse(buf, as_attachment=True, filename='venue.pdf')
+
+def my_events(request):
+    if request.user.is_authenticated:
+        me = request.user.id
+        events = Event.objects.filter(attendees=me)
+        return render(request, 'events/my_events.html', {"events":events})
+    else:
+        messages.success(request, ("You Aren't Authorized To View This Page"))
+    return redirect("home")

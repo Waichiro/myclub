@@ -10,18 +10,18 @@
                 {{ event }}
             </div>
             <div class="card-body">
-            <h5 class="card-title">Venue: {{ event.venue }}</h5>
-            <ul>
-                <li>Date: {{ event.event_date }}</li>
-                <li>Venue WebSite: <a href="{{ event.venue.web }}">Ir para página</a></li>
-                <li>Manager: {{ event.manager }}</li>
-                <li>Description: {{ event.description }}</li>
-                <li>attendees: <br>
-                    {% for user in event.attendees.all %}
-                        {{ user }} <br>
-                    {% endfor%}
-                </li>
-            </ul>
+                <h5 class="card-title">Venue: {{ event.venue }}</h5>
+                <ul>
+                    <li>Date: {{ event.event_date }}</li>
+                    <li>Venue WebSite: <a href="{{ event.venue.web }}">Ir para página</a></li>
+                    <li>Manager: {{ event.manager }}</li>
+                    <li>Description: {{ event.description }}</li>
+                    <li>attendees: <br>
+                        {% for user in event.attendees.all %}
+                            {{ user }} <br>
+                        {% endfor%}
+                    </li>
+                </ul>
             
             </div>
             {% if user.is_authenticated %}
