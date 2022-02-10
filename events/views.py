@@ -1,6 +1,8 @@
+from email import message
 from multiprocessing import context
 from django.shortcuts import redirect, render
 import calendar
+from django.contrib import messages
 from calendar import HTMLCalendar
 from django.http import HttpResponseRedirect
 from datetime import datetime
@@ -191,14 +193,25 @@ def update_event(request, event_id):
 #deleta um evento
 def delete_event(request, event_id):
     event = Event.objects.get(pk=event_id) #Ele pega somente a chave primaria q é o id do objeto na tabela  
-    event.delete()
-    return redirect('list-events')#Redireciona para a lista de eventos
+    if request.user == event.manager: #Aqui ele vai ver se o usuario é dono do evento antes de excluir ele
+        event.delete()
+        messages.success(request, ("Event Delete With Success"))
+        return redirect('list-events')#Redireciona para a lista de eventos
+    else:
+        messages.success(request, ("You aren't Authorized To Delete This Event"))
+        return redirect('list-events')#Redireciona para a lista de eventos
 
 #deleta um Venue
 def delete_venue(request, venue_id):
     venue = Venue.objects.get(pk=venue_id) #Ele pega somente a chave primaria q é o id do objeto na tabela  
-    venue.delete()
-    return redirect('list-venues')#Redireciona para a lista de venues
+    if request.user.id == venue.owner:# AQui ele comparar o id do usuario para ver se é igual o id do dono do Venue
+        venue.delete()
+        messages.success(request, ("Venue Delete With Success"))
+        return redirect('list-venues')#Redireciona para a lista de venues
+    else:
+        messages.success(request, ("You aren't Authorized To Delete This Venue"))
+        return redirect('list-venues')#Redireciona para a lista de venues
+
 
 #Aqui gera um arquivo de texto em .txt
 def venue_text(request):
