@@ -2,7 +2,7 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-    {% if user == event.manager %}
+    {% if user.id == venue.owner %}
         <h1>Update Venue</h1>
         <form action="" method="POST">
             {% csrf_token %}
