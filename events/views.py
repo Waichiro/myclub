@@ -5,7 +5,7 @@ from calendar import HTMLCalendar
 from django.http import HttpResponseRedirect
 from datetime import datetime
 from .models import Event, Venue
-from .forms import VenueForm, EventForm
+from .forms import VenueForm, EventForm, EventFormAdmin
 from django.http import HttpResponse
 import csv
 
@@ -141,13 +141,30 @@ def add_event(request):
     submitted =  False
 
     if request.method == "POST":
-        form = EventForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/add_event?submitted=True')
+        #Nesse if abaixo ele fala q se o usuario for um super user ele pega o formulario
+        # de super user, se nn for ele pega o formulario de usuario normal
+
+        if request.user.is_superuser:
+            form = EventFormAdmin(request.POST)
+            if form.is_valid():
+                form.save()
+                return HttpResponseRedirect('/add_event?submitted=True')
+
+        else:
+            form = EventForm(request.POST)  
+            if form.is_valid():
+                event = form.save(commit=False)
+                event.manager = request.user #Nessa parte ele adicionacomo manager do evento o usuario q criou
+                event.save()
+                return HttpResponseRedirect('/add_event?submitted=True')
 
     else:
-        form = EventForm
+        # Just goingo To The Page, Not Submitting
+        if request.user.is_superuser:
+            form = EventFormAdmin
+        else:
+            form = EventForm
+
         if 'submitted' in request.GET:
             submitted = True
     context = {
@@ -158,7 +175,10 @@ def add_event(request):
 
 def update_event(request, event_id):
     event = Event.objects.get(pk=event_id) #Ele pega somente a chave primaria q é o id do objeto na tabela
-    form = EventForm(request.POST or None, instance=event)
+    if request.user.is_superuser:
+        form = EventFormAdmin(request.POST or None, instance=event)
+    else:
+        form = EventForm(request.POST or None, instance=event)
     if form.is_valid():
         form.save()
         return redirect('list-events')
