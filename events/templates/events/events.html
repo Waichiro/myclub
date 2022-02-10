@@ -25,12 +25,14 @@
             
             </div>
             {% if user.is_authenticated %}
-            <div class="card-footer">
-                
-                    <a href="{% url 'update-event' event.id %}" class="btn btn-outline-secondary btn-sm">Update</a>
-                    <a href="{% url 'delete-event' event.id %}" class="btn btn-outline-danger btn-sm">Deletar</a>
-                
-            </div>
+                {% if user == event.manager %}
+                    <div class="card-footer">
+                        
+                            <a href="{% url 'update-event' event.id %}" class="btn btn-outline-secondary btn-sm">Update</a>
+                            <a href="{% url 'delete-event' event.id %}" class="btn btn-outline-danger btn-sm">Deletar</a>
+                        
+                    </div>
+                {% endif %}
             {% endif %}
         </div>
         <br>
