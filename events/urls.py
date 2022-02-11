@@ -19,6 +19,7 @@ urlpatterns = [
     path('venue_csv', views.venue_csv, name="venue-csv"),#Nesse link sera gerado um arquivo em csv
     path('venue_pdf', views.venue_pdf, name="venue-pdf"),#Nesse link sera gerado um arquivo em pdf
     path('my_events', views.my_events, name="my-events"),#Nesse link a pessoa vai para lista de eventos q ela esta
+    path('search_events', views.search_events, name="search-events"),#Essa é a parte de pesquisa de eventos do projeto
 
 
 ]

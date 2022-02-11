@@ -305,3 +305,16 @@ def my_events(request):
     else:
         messages.success(request, ("You Aren't Authorized To View This Page"))
     return redirect("home")
+
+def search_events(request):
+
+    if request.method =="POST":
+        searched = request.POST['searched']
+        events = Event.objects.filter(description__contains=searched)
+        context = {
+            'searched': searched,
+            'events': events
+        }
+        return render(request, 'events/search_events.html', context)
+    else:
+        return render(request, 'events/search_events.html', {})
